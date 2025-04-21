@@ -111,7 +111,7 @@ func SignIn(c *gin.Context) {
 		utils.ResponseError(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	utils.RespondJSON(c, http.StatusOK, gin.H{"token": token})
+	utils.RespondJSON(c, http.StatusOK, gin.H{"token": token, "role": user.Role.RoleName})
 }
 
 func DeleteUser(c *gin.Context) {
