@@ -115,6 +115,7 @@ func SignIn(c *gin.Context) {
 }
 
 func DeleteUser(c *gin.Context) {
+	
 	var user models.User
 	id := c.Param("id")
 
