@@ -22,12 +22,16 @@ func CreateUser(c *gin.Context) {
 
     hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(body.Password), 14)
     user := models.User{
-        FirstName: body.FirstName,
-        LastName:  body.LastName,
-        Email:     body.Email,
-        Password:  string(hashedPassword),
-        RoleID:    body.RoleID,
-    }
+    FirstName: body.FirstName,
+    LastName:  body.LastName,
+    Email:     body.Email,
+    Password:  string(hashedPassword),
+    RoleID:    body.RoleID,
+		Phone:     body.Phone,
+		Address:   body.Address,
+		Avatar:    body.Avatar,
+}
+
     if err := config.DB.Create(&user).Error; err != nil {
         utils.ResponseError(c, http.StatusNotFound,"Failed to create user")
         return
@@ -77,10 +81,14 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(body.Password), 14)
 	user.FirstName = body.FirstName
 	user.LastName = body.LastName
 	user.Email = body.Email
-	user.Password = body.Password
+	user.Password = string(hashedPassword)
+	user.Phone = body.Phone
+	user.Address = body.Address
+	user.Avatar = body.Avatar
 	user.RoleID = body.RoleID
 
 	if err := config.DB.Save(&user).Error; err != nil {
